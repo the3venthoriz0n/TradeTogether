@@ -2,8 +2,8 @@
 setlocal
 cd /d "%~dp0"
 set "TRADETOGETHER_BUILD_DIR=out\build-release"
-set "TRADETOGETHER_VERSION=0.11.0-strpm"
-set "TRADETOGETHER_PUBLIC_VERSION=0.11.0"
+set "TRADETOGETHER_VERSION=0.12.0-strpm"
+set "TRADETOGETHER_PUBLIC_VERSION=0.12.0"
 set "TRADETOGETHER_BUILT_DLL=%TRADETOGETHER_BUILD_DIR%\Release\TradeTogether.dll"
 set "TRADETOGETHER_PACKAGE_DLL=package\Data\SKSE\Plugins\TradeTogether.dll"
 
@@ -20,8 +20,8 @@ if not exist "%VCPKG_ROOT%\vcpkg.exe" (
     exit /b 1
 )
 
-echo [TradeTogether] Synchronisation de la baseline vcpkg locale...
-powershell -NoProfile -ExecutionPolicy Bypass -File "%~dp0tools\ensure_vcpkg_baseline.ps1" -VcpkgRoot "%VCPKG_ROOT%"
+echo [TradeTogether] Initialisation du sous-module CommonLibSSE-NG...
+git submodule update --init --recursive
 if errorlevel 1 exit /b %errorlevel%
 
 echo [TradeTogether] Configuration CMake...

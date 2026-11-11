@@ -1,11 +1,11 @@
-# TradeTogether v0.11.0-strpm
+# TradeTogether v0.12.0-strpm
 
 STR Plugin Messaging edition of TradeTogether for Skyrim Together Reborn.
 
 ## Requirements
 
-- Skyrim Special Edition / Anniversary Edition
-- SKSE
+- Skyrim Special Edition / Anniversary Edition, including **1.7.104.0**
+- SKSE 2.3.x for Skyrim 1.7.x, with Address Library for SKSE Plugins (format 5)
 - Skyrim Together Reborn
 - STR Plugin Messaging API with Proxy Resolver support
 - The same TradeTogether build on every player
@@ -25,6 +25,14 @@ TradeTogether itself opens no UDP socket and requires no TradeTogether-specific 
 8. After both confirmations, TradeTogether performs the automatic native transfer.
 
 Quest items are rejected. Item-only, gold-only, mixed item/gold trades and one-way gifts are supported.
+
+## v0.12.0 — Skyrim 1.7.104 support
+
+v0.12.0 rebuilds the plugin against alandtse's maintained CommonLibSSE-NG (v15.7.3, vendored as a submodule in `lib/commonlibsse-ng`). It declares Address Library format 5 and version independence, which SKSE 2.3.x requires on Skyrim 1.7.99 and later. Gameplay and controls are unchanged from v0.11.0.
+
+Skyrim Together Reborn and the STR Plugin Messaging API must also support your game version.
+
+CommonLibSSE-NG is GPL-3.0-or-later, so this plugin is distributed under the GPL as well.
 
 ## v0.11.0 — configurable controls and SkyUI MCM
 
@@ -159,14 +167,14 @@ Log:
 Documents/My Games/Skyrim Special Edition/SKSE/TradeTogether.log
 ```
 
-Expected v0.11.0 startup entries include:
+Expected v0.12.0 startup entries include:
 
 ```text
-TradeTogether v0.11.0-strpm loading
+TradeTogether v0.12.0-strpm loading
 TradeTogether Papyrus MCM bridge registered
 TradeTogether controls loaded: trade=... add=... remove=... goldAdd=... goldRemove=... cancel=...
 TradeTogether STRPM deferred receive dispatcher started
-TradeTogether v0.11.0-strpm ready ... network=ready
+TradeTogether v0.12.0-strpm ready ... network=ready
 ```
 
 Changing a key through the MCM should log:
@@ -184,7 +192,7 @@ The existing v0.10.0 STR trade flow and Skyrim Souls RE compatibility remain the
 
 ## Build
 
-C++ plugin:
+Clone with submodules (`git clone --recurse-submodules`), install vcpkg to `C:\dev\vcpkg` (or set `VCPKG_ROOT`), then build the C++ plugin:
 
 ```powershell
 .\build_release.bat
@@ -200,5 +208,5 @@ set "SKYUI_SOURCE=C:\path\to\SkyUI\scripts\source"
 Expected archive name:
 
 ```text
-dist/TradeTogether-0.11.0.zip
+dist/TradeTogether-0.12.0.zip
 ```

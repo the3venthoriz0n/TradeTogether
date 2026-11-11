@@ -4,6 +4,7 @@
 
 #include <RE/B/BSTCreateFactoryManager.h>
 #include <RE/M/MessageBoxData.h>
+#include <RE/M/MessageBoxMenu.h>
 
 namespace RE
 {
@@ -64,6 +65,6 @@ namespace RE
         spdlog::info(
             "SafeMessageBox queued with {} button(s); native MessageBoxData defaults preserved",
             data->buttonText.size());
-        data->QueueMessage();
+        RE::MessageBoxMenu::QueueMessage(data);
     }
 }

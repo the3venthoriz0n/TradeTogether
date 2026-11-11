@@ -1,13 +1,21 @@
 cmake_minimum_required(VERSION 3.24)
 
-project(TradeTogether VERSION 0.11.0 LANGUAGES CXX)
+# Link spdlog/fmt statically: the plugin DLL must not depend on spdlog.dll/fmt.dll,
+# which do not exist in a Skyrim install. Must be set before project().
+set(VCPKG_TARGET_TRIPLET "x64-windows-static-md" CACHE STRING "")
+
+project(TradeTogether VERSION 0.12.0 LANGUAGES CXX)
 set(TRADETOGETHER_RELEASE_VERSION "${PROJECT_VERSION}-strpm")
 
 set(CMAKE_CXX_STANDARD 23)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_CXX_EXTENSIONS OFF)
 
-find_package(CommonLibSSE REQUIRED)
+# CommonLibSSE-NG (alandtse fork) is vendored as a submodule: only this fork supports
+# Skyrim 1.7.99+ (Address Library format 5).
+set(BUILD_TESTS OFF CACHE BOOL "Disable CommonLibSSE-NG tests" FORCE)
+add_subdirectory(lib/commonlibsse-ng CommonLibSSE EXCLUDE_FROM_ALL)
+include(lib/commonlibsse-ng/cmake/CommonLibSSE.cmake)
 
 set(PROJECT_SOURCES
     src/PCH.h

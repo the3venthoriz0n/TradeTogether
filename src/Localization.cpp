@@ -111,6 +111,6 @@ namespace RE
     {
         const auto translated = TradeTogether::Localization::TranslateUserText(
             a_message ? std::string_view(a_message) : std::string_view{});
-        DebugNotification(translated.c_str());
+        RE::SendHUDMessage::ShowHUDMessage(translated.c_str());
     }
 }

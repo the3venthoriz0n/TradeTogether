@@ -118,9 +118,10 @@ namespace TradeTogether::Trade
                 return nullptr;
             }
 
-            auto target = pickData->targetActor.get();
+            // Multi-runtime CommonLib exposes the VR array layout; read the flat SE/AE members by offset.
+            auto target = REL::RelocateMember<RE::ObjectRefHandle>(pickData, 0x08, 0x10).get();
             if (!target) {
-                target = pickData->target.get();
+                target = pickData->GetActiveTarget().get();
             }
             if (!target) {
                 spdlog::info("F6: no crosshair target");
@@ -328,7 +329,7 @@ namespace TradeTogether::Trade
                 _requestID(std::move(a_requestID))
             {}
 
-            void Run(Message a_message) override
+            void Run(std::uint8_t a_button) override
             {
                 auto& state = GetState();
                 if (!state.session ||
@@ -336,7 +337,7 @@ namespace TradeTogether::Trade
                     return;
                 }
                 state.session->summaryPromptOpen = false;
-                if (a_message == Message::kUnk0) {
+                if (a_button == 0) {
                     MarkLocalReady();
                 } else {
                     OpenOfferInventory();
@@ -483,7 +484,7 @@ namespace TradeTogether::Trade
                 _requestID(std::move(a_requestID))
             {}
 
-            void Run(Message a_message) override
+            void Run(std::uint8_t a_button) override
             {
                 auto& state = GetState();
                 if (!state.session ||
@@ -491,7 +492,7 @@ namespace TradeTogether::Trade
                     return;
                 }
                 state.session->finalPromptOpen = false;
-                if (a_message == Message::kUnk0) {
+                if (a_button == 0) {
                     ConfirmLocalOffer();
                 } else {
                     ResetLocalApproval();
@@ -723,13 +724,13 @@ namespace TradeTogether::Trade
                 _receivedAt(a_receivedAt)
             {}
 
-            void Run(Message a_message) override
+            void Run(std::uint8_t a_button) override
             {
                 RespondToRequest(
                     std::move(_requestID),
                     std::move(_requester),
                     _receivedAt,
-                    a_message == Message::kUnk0);
+                    a_button == 0);
             }
 
         private:

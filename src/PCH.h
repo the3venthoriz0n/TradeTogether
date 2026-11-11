@@ -44,3 +44,8 @@
 // CommonLibSSE-NG generates __TradeTogetherPlugin.cpp with "..."sv.
 // Keep the literal visible to that generated translation unit on MSVC.
 using namespace std::string_view_literals;
+
+// <Windows.h> defines GetObject as GetObjectA/W, which breaks RE::InventoryEntryData::GetObject.
+#ifdef GetObject
+#  undef GetObject
+#endif
