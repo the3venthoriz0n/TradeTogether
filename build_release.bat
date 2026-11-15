@@ -63,5 +63,5 @@ if errorlevel 1 exit /b %errorlevel%
 
 echo.
 echo [TradeTogether] Tout est pret.
-echo Archive: dist\TradeTogether-%TRADETOGETHER_PUBLIC_VERSION%.zip
+echo Archive path: see "Archive creee" above (a timestamp suffix is added if the name already existed).
 endlocal

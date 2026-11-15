@@ -210,3 +210,5 @@ Expected archive name:
 ```text
 dist/TradeTogether-0.12.0.zip
 ```
+
+Packaging never overwrites or deletes an earlier build: if the zip name is already in `dist`, the new one gets a `_yyyyMMdd-HHmmss` suffix (for example `TradeTogether-0.12.0_20261114-160500.zip`), so versions sit side by side for rollback; the script prints the final path.

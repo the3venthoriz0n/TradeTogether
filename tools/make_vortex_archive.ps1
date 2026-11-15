@@ -63,10 +63,17 @@ if ($foundLegacyEntries.Count -gt 0) {
     Write-Host ("[TradeTogether] Ignoring legacy UDP/FOMOD package residue: " + ($foundLegacyEntries -join ", ")) -ForegroundColor Yellow
 }
 
-New-Item -ItemType Directory -Path $distDir -Force | Out-Null
-if (Test-Path -LiteralPath $archivePath) {
-    Remove-Item -LiteralPath $archivePath -Force
+# Never replace an earlier build: if the target already exists, add a _yyyyMMdd-HHmmss suffix before the extension.
+function Get-UniquePath([string]$Path) {
+    if (-not (Test-Path -LiteralPath $Path)) { return $Path }
+    $dir  = Split-Path -Parent $Path
+    $base = [System.IO.Path]::GetFileNameWithoutExtension($Path)
+    $ext  = [System.IO.Path]::GetExtension($Path)
+    return (Join-Path $dir ("{0}_{1}{2}" -f $base, (Get-Date -Format "yyyyMMdd-HHmmss"), $ext))
 }
+
+New-Item -ItemType Directory -Path $distDir -Force | Out-Null
+$archivePath = Get-UniquePath $archivePath
 
 Compress-Archive `
     -Path $dataDir `
