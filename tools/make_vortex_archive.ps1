@@ -81,6 +81,9 @@ Compress-Archive `
     -CompressionLevel Optimal `
     -Force
 
+. (Join-Path $PSScriptRoot "legal_docs.ps1")
+Add-LegalDocs -Zip $archivePath -Prefix "Data/Docs/TradeTogether" -Version $publicVersion
+
 if (-not (Test-Path -LiteralPath $archivePath -PathType Leaf)) {
     throw "Archive creation failed: $archivePath"
 }
